@@ -38,5 +38,15 @@
 }
 
 .Card{
-  border: white;
+  border: 2px solid #007bff;
+  border-radius: 25px;
+  margin: 25px;
+  padding: 5px;
+}
+
+.todo_head{
+  border: 2px solid #007bff;
+  border-radius: 25px;
+  margin: 25px;
+  padding: 5px;
 }

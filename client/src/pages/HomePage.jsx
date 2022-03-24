@@ -5,13 +5,15 @@ export default function Home() {
 
     const [todo, setTodo] = useState("");
     const [postList, setPostList] = useState("");
+    const [checked, setChecked] = React.useState(true);
     const navigate = useNavigate();
 
     function handleOnSubmit(e) {
         fetchData();
+        const isDone = false;
         e.preventDefault()
         const url = "http://localhost:3001/todo"
-        const payload = { todo }
+        const payload = { todo, isDone }
         const token = localStorage.getItem("backend3")
         const headers = {
             'Content-Type': 'application/json',
@@ -48,11 +50,33 @@ export default function Home() {
                 setPostList(data.entries)
                 console.log(data.entries)
             });
+    };
+
+    function handleOnClick() {
+        localStorage.clear();
+        navigate("/user/login");
+    }
+
+    function handleOnChange() {
+        setChecked(!checked);
+        console.log(checked);
     }
 
     return (
         <>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" onClick={handleOnClick}>Log out</button>
+                    </div>
+                </div>
+            </div>
             <div>
+                <h2>Todo-List</h2>
                 <form onSubmit={handleOnSubmit}>
                     <input
                         type="text"
@@ -66,14 +90,32 @@ export default function Home() {
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col">Todo</div>
-                    <div class="col">Done</div>
+                    <div class="col"></div>
+                    <div class="col"></div>
                 </div>
                 <div class="row">
                     <div class="col">
+                        <p>Todo</p>
                         {postList && postList.map((item, index) => {
                             let truncatedDate = item.date.split("T")
-                            console.log(truncatedDate[1]);
+
+                            return (
+                                <div className="Card" key={item.id}>
+                                    <p>{item.todo}</p>
+                                    <p>{truncatedDate[1]}</p>
+                                    <div>
+                                        <input type="checkbox" name="scales" onChange={handleOnChange}></input>
+                                        <label for="scales">Done</label>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div class="col">
+                        <p>Done</p>
+                        {postList && postList.map((item, index) => {
+                            let truncatedDate = item.date.split("T")
+
                             return (
                                 <div className="Card" key={item.id}>
                                     <p>{item.todo}</p>
@@ -82,7 +124,6 @@ export default function Home() {
                             )
                         })}
                     </div>
-                    <div class="col">Column 4</div>
                 </div>
             </div>
         </>

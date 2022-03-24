@@ -61,7 +61,7 @@ app.post("/tokens", async (req, res) => {
 
 app.get("/todoposts", requireLogin, async (req, res) => {
     const entries = await Todo
-        .find({}).sort('-date')
+        .find({ user: req.user.userId }).sort('-date')
         .populate("user")
         .exec();
     res.json({ entries });
@@ -70,12 +70,13 @@ app.get("/todoposts", requireLogin, async (req, res) => {
 //Why req.user.userId and not req.user._id?
 
 app.post("/todo", requireLogin, async (req, res) => {
-    const { todo } = req.body;
+    const { todo, isDone } = req.body;
     const user = req.user;
-    // console.log(user);
-    // console.log(todo);
+    //console.log(user);
+    console.log(isDone);
+    //console.log(state);
     // console.log(user.userId);
-    const entry = new Todo({ todo, user: user.userId });
+    const entry = new Todo({ todo, isDone, user: user.userId });
     try {
         await entry.save();
         res.json({ user })
@@ -84,6 +85,13 @@ app.post("/todo", requireLogin, async (req, res) => {
     }
 });
 
+// app.get('/user/logout', requireLogin, (req, res) => {
+//     req.session.destroy((err) => {
+//         if (err) {
+//             return console.log(err);
+//         }
+//     });
+// });
 
 mongoose.connect("mongodb://127.0.0.1/backend2EgenUppgift");
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 export default function Signup() {
@@ -47,6 +47,8 @@ export default function Signup() {
             />
             <br />
             <button class="btn btn-primary">Sign up</button>
+            <br />
+            <Link to="/user/login">Already have an account?</Link>
         </form>
     </div>
 }
