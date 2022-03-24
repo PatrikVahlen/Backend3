@@ -57,12 +57,13 @@ export default function Home() {
         navigate("/user/login");
     };
 
-    function handleOnChange(e) {
+    function handleOnChange(todoId) {
         setChecked(!checked);
         console.log(checked);
-        e.preventDefault()
+        console.log(todoId);
+        //e.preventDefault()
         const url = "http://localhost:3001/changetodo"
-        const payload = { checked }
+        const payload = { checked, todoId }
         const token = localStorage.getItem("backend3")
         const headers = {
             'Content-Type': 'application/json',
@@ -123,7 +124,7 @@ export default function Home() {
                                         <p>{item._id}</p>
                                         <p>{truncatedDate[1]}</p>
                                         <div>
-                                            <input type="checkbox" name="scales" onChange={handleOnChange}></input>
+                                            <input type="checkbox" name="scales" onChange={(e) => handleOnChange(item._id)}></input>
                                             <label for="scales">Done</label>
                                         </div>
                                     </div>
