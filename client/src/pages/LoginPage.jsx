@@ -22,7 +22,7 @@ export default function Signup() {
             .then(res => res.json())
             .then(data => {
                 const token = data.token
-                localStorage.setItem("webb21inl", token)
+                localStorage.setItem("backend3", token)
                 console.log(token);
                 navigate('/user/home')
             })
