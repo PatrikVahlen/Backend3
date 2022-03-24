@@ -59,17 +59,26 @@ app.post("/tokens", async (req, res) => {
     }
 });
 
+app.get("/todoposts", requireLogin, async (req, res) => {
+    const entries = await Todo
+        .find({}).sort('-date')
+        .populate("user")
+        .exec();
+    res.json({ entries });
+});
+
 //Why req.user.userId and not req.user._id?
 
 app.post("/todo", requireLogin, async (req, res) => {
     const { todo } = req.body;
     const user = req.user;
-    console.log(user);
-    console.log(todo);
-    console.log(user.userId);
+    // console.log(user);
+    // console.log(todo);
+    // console.log(user.userId);
     const entry = new Todo({ todo, user: user.userId });
     try {
         await entry.save();
+        res.json({ user })
     } catch (err) {
         console.log(err)
     }
