@@ -85,13 +85,12 @@ app.post("/todo", requireLogin, async (req, res) => {
     }
 });
 
-// app.get('/user/logout', requireLogin, (req, res) => {
-//     req.session.destroy((err) => {
-//         if (err) {
-//             return console.log(err);
-//         }
-//     });
-// });
+app.post("/changetodo", requireLogin, async (req, res) => {
+    const { checked } = req.body;
+    console.log(checked);
+    const user = req.user;
+    await Todo.updateOne({ user: user.userId, _id: "623cb63d1649fa4022e4cf52" }, { isDone: true })
+});
 
 mongoose.connect("mongodb://127.0.0.1/backend2EgenUppgift");
 

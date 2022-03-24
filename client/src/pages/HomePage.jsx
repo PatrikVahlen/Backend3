@@ -55,12 +55,29 @@ export default function Home() {
     function handleOnClick() {
         localStorage.clear();
         navigate("/user/login");
-    }
+    };
 
-    function handleOnChange() {
+    function handleOnChange(e) {
         setChecked(!checked);
         console.log(checked);
-    }
+        e.preventDefault()
+        const url = "http://localhost:3001/changetodo"
+        const payload = { checked }
+        const token = localStorage.getItem("backend3")
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+        fetch(url, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(payload)
+        })
+            .then(res => res.json())
+            .then(data => {
+
+            })
+    };
 
     return (
         <>
@@ -97,31 +114,39 @@ export default function Home() {
                     <div class="col">
                         <p>Todo</p>
                         {postList && postList.map((item, index) => {
-                            let truncatedDate = item.date.split("T")
+                            if (item.isDone === false) {
+                                let truncatedDate = item.date.split("T")
 
-                            return (
-                                <div className="Card" key={item.id}>
-                                    <p>{item.todo}</p>
-                                    <p>{truncatedDate[1]}</p>
-                                    <div>
-                                        <input type="checkbox" name="scales" onChange={handleOnChange}></input>
-                                        <label for="scales">Done</label>
+                                return (
+                                    <div className="Card" key={item.id}>
+                                        <p>{item.todo}</p>
+                                        <p>{truncatedDate[1]}</p>
+                                        <div>
+                                            <input type="checkbox" name="scales" onChange={handleOnChange}></input>
+                                            <label for="scales">Done</label>
+                                        </div>
                                     </div>
-                                </div>
-                            )
+                                )
+                            }
                         })}
                     </div>
                     <div class="col">
                         <p>Done</p>
                         {postList && postList.map((item, index) => {
-                            let truncatedDate = item.date.split("T")
+                            if (item.isDone === true) {
+                                let truncatedDate = item.date.split("T")
 
-                            return (
-                                <div className="Card" key={item.id}>
-                                    <p>{item.todo}</p>
-                                    <p>{truncatedDate[1]}</p>
-                                </div>
-                            )
+                                return (
+                                    <div className="Card" key={item.id}>
+                                        <p>{item.todo}</p>
+                                        <p>{truncatedDate[1]}</p>
+                                        <div>
+                                            <input type="checkbox" name="scales" onChange={handleOnChange}></input>
+                                            <label for="scales">Done</label>
+                                        </div>
+                                    </div>
+                                )
+                            }
                         })}
                     </div>
                 </div>
