@@ -46,7 +46,7 @@ export default function Signup() {
                 placeholder="Password"
             />
             <br />
-            <button>Sign up</button>
+            <button>Log in</button>
         </form>
     </div>
 }

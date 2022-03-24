@@ -3,9 +3,9 @@ const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
 const { User } = require("./models/user");
+const { Todo } = require("./models/todos");
+
 const cors = require("cors");
-
-
 const app = express()
 const PORT = 3001;
 const JWT_SECRET = "B5rSrYfYNsu6ne7FXw__BEeLoHazAfkhjWvlsZ9VHGw";
@@ -18,7 +18,7 @@ app.use((req, _res, next) => {
     const authHeader = req.header("Authorization");
     if (authHeader) {
         const token = authHeader.split(" ")[1];
-        console.log("Token:", token);
+        //console.log("Token:", token);
         req.user = jwt.verify(token, JWT_SECRET);
     }
     next();
@@ -58,6 +58,23 @@ app.post("/tokens", async (req, res) => {
         res.sendStatus(401);
     }
 });
+
+//Why req.user.userId and not req.user._id?
+
+app.post("/todo", requireLogin, async (req, res) => {
+    const { todo } = req.body;
+    const user = req.user;
+    console.log(user);
+    console.log(todo);
+    console.log(user.userId);
+    const entry = new Todo({ todo, user: user.userId });
+    try {
+        await entry.save();
+    } catch (err) {
+        console.log(err)
+    }
+});
+
 
 mongoose.connect("mongodb://127.0.0.1/backend2EgenUppgift");
 
