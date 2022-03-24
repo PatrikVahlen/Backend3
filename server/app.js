@@ -3,12 +3,16 @@ const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
 const { User } = require("./models/user");
+const cors = require("cors");
+
 
 const app = express()
 const PORT = 3001;
 const JWT_SECRET = "B5rSrYfYNsu6ne7FXw__BEeLoHazAfkhjWvlsZ9VHGw";
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use((req, _res, next) => {
     const authHeader = req.header("Authorization");
