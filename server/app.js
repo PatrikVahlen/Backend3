@@ -55,7 +55,7 @@ app.post("/tokens", async (req, res) => {
     }
 });
 
-mongoose.connect("mongodb://127.0.0.1/backend1recipe");
+mongoose.connect("mongodb://127.0.0.1/backend2EgenUppgift");
 
 app.listen(PORT, () => {
     console.log(`Started Express server on port ${PORT}`);
