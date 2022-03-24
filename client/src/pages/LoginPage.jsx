@@ -23,7 +23,7 @@ export default function Signup() {
             .then(data => {
                 const token = data.token
                 localStorage.setItem("backend3", token)
-                console.log(token);
+                //console.log(token);
                 navigate('/user/home')
             })
     }

@@ -23,7 +23,7 @@ export default function Signup() {
             .then(data => {
                 // const token = data.token
                 // localStorage.setItem("webb21inl", token)
-                console.log(data.username);
+                //console.log(data.username);
                 navigate('/user/login')
             })
     }

@@ -118,8 +118,9 @@ export default function Home() {
                                 let truncatedDate = item.date.split("T")
 
                                 return (
-                                    <div className="Card" key={item.id}>
+                                    <div className="Card" key={item._id}>
                                         <p>{item.todo}</p>
+                                        <p>{item._id}</p>
                                         <p>{truncatedDate[1]}</p>
                                         <div>
                                             <input type="checkbox" name="scales" onChange={handleOnChange}></input>
@@ -137,7 +138,7 @@ export default function Home() {
                                 let truncatedDate = item.date.split("T")
 
                                 return (
-                                    <div className="Card" key={item.id}>
+                                    <div className="Card" key={item._id}>
                                         <p>{item.todo}</p>
                                         <p>{truncatedDate[1]}</p>
                                         <div>
