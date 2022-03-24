@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const { User } = require("./models/user");
 
 const app = express()
-const PORT = 3000;
+const PORT = 3001;
 const JWT_SECRET = "B5rSrYfYNsu6ne7FXw__BEeLoHazAfkhjWvlsZ9VHGw";
 
 app.use(express.json());
