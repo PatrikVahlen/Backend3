@@ -143,7 +143,7 @@ export default function Home() {
                                         <p>{item.todo}</p>
                                         <p>{truncatedDate[1]}</p>
                                         <div>
-                                            <input type="checkbox" name="scales" onChange={handleOnChange}></input>
+                                            <input checked={checked} type="checkbox" name="scales" onChange={(e) => handleOnChange(item._id)}></input>
                                             <label for="scales">Done</label>
                                         </div>
                                     </div>
