@@ -9,7 +9,6 @@ export default function Home() {
     const navigate = useNavigate();
 
     function handleOnSubmit(e) {
-        fetchData();
         const isDone = false;
         e.preventDefault()
         const url = "http://localhost:3001/todo"
@@ -27,7 +26,8 @@ export default function Home() {
             .then(res => res.json())
             .then(data => {
                 //console.log(data.user)
-                navigate('/user/home')
+                fetchData();
+                //navigate('/user/home')
             })
     };
 
@@ -76,7 +76,8 @@ export default function Home() {
         })
             .then(res => res.json())
             .then(data => {
-
+                fetchData();
+                //navigate('/user/home');
             })
     };
 
@@ -121,11 +122,10 @@ export default function Home() {
                                 return (
                                     <div className="Card" key={item._id}>
                                         <p>{item.todo}</p>
-                                        <p>{item._id}</p>
                                         <p>{truncatedDate[1]}</p>
                                         <div>
-                                            <input type="checkbox" name="scales" onChange={(e) => handleOnChange(item._id)}></input>
-                                            <label for="scales">Done</label>
+                                            <input class="form-check-input" type="checkbox" name="todo" onChange={(e) => handleOnChange(item._id)}></input>
+                                            <label for="todo">Done</label>
                                         </div>
                                     </div>
                                 )
@@ -143,8 +143,8 @@ export default function Home() {
                                         <p>{item.todo}</p>
                                         <p>{truncatedDate[1]}</p>
                                         <div>
-                                            <input checked={checked} type="checkbox" name="scales" onChange={(e) => handleOnChange(item._id)}></input>
-                                            <label for="scales">Done</label>
+                                            <input class="form-check-input" type="checkbox" name="todo" onChange={(e) => handleOnChange(item._id)}></input>
+                                            <label for="todo">Done</label>
                                         </div>
                                     </div>
                                 )
