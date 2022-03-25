@@ -90,6 +90,7 @@ app.post("/todoisdone", requireLogin, async (req, res) => {
     console.log(checked);
     const user = req.user;
     await Todo.updateOne({ user: user.userId, _id: todoId }, { isDone: checked })
+    res.json({ user });
 });
 
 mongoose.connect("mongodb://127.0.0.1/backend2EgenUppgift");
