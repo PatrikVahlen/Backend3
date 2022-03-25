@@ -5,7 +5,7 @@ export default function Home() {
 
     const [todo, setTodo] = useState("");
     const [postList, setPostList] = useState("");
-    const [checked, setChecked] = React.useState(true);
+    //const [checked, setChecked] = useState(true);
     const navigate = useNavigate();
 
     function handleOnSubmit(e) {
@@ -27,6 +27,7 @@ export default function Home() {
             .then(data => {
                 //console.log(data.user)
                 fetchData();
+                setTodo("");
                 //navigate('/user/home')
             })
     };
@@ -57,12 +58,14 @@ export default function Home() {
         navigate("/user/login");
     };
 
-    function handleOnChange(todoId) {
-        setChecked(!checked);
+    //Move todo i.e. is it completed?
+
+    function handleOnChange(todoId, checked) {
+        //setChecked(checked);
         console.log(checked);
-        console.log(todoId);
+        //console.log(todoId);
         //e.preventDefault()
-        const url = "http://localhost:3001/todisdone"
+        const url = "http://localhost:3001/todoisdone"
         const payload = { checked, todoId }
         const token = localStorage.getItem("backend3")
         const headers = {
@@ -124,7 +127,12 @@ export default function Home() {
                                         <p>{item.todo}</p>
                                         <p>{truncatedDate[1]}</p>
                                         <div>
-                                            <input class="form-check-input" type="checkbox" name="todo" onChange={(e) => handleOnChange(item._id)}></input>
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                name="todo"
+                                                onChange={(e) => handleOnChange(item._id, true)}>
+                                            </input>
                                             <label for="todo">Done</label>
                                         </div>
                                     </div>
@@ -143,7 +151,12 @@ export default function Home() {
                                         <p>{item.todo}</p>
                                         <p>{truncatedDate[1]}</p>
                                         <div>
-                                            <input class="form-check-input" type="checkbox" name="todo" onChange={(e) => handleOnChange(item._id)}></input>
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                name="todo"
+                                                onChange={(e) => handleOnChange(item._id, false)}>
+                                            </input>
                                             <label for="todo">Done</label>
                                         </div>
                                     </div>
