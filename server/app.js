@@ -36,14 +36,14 @@ app.get("/secret", requireLogin, (req, res) => {
     res.json({ greeting: `Hello ${req.user.username}` });
 });
 
-app.post("/users", async (req, res) => {
+app.post("/signup", async (req, res) => {
     const { username, password } = req.body;
     const user = new User({ username, password });
     await user.save();
     res.json({ username });
 });
 
-app.post("/tokens", async (req, res) => {
+app.post("/login", async (req, res) => {
     const { username, password } = req.body;
     const user = await User.login(username, password);
     if (user) {
@@ -85,7 +85,7 @@ app.post("/todo", requireLogin, async (req, res) => {
     }
 });
 
-app.post("/changetodo", requireLogin, async (req, res) => {
+app.post("/todoisdone", requireLogin, async (req, res) => {
     const { checked, todoId } = req.body;
     console.log(checked);
     const user = req.user;

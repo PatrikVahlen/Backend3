@@ -62,7 +62,7 @@ export default function Home() {
         console.log(checked);
         console.log(todoId);
         //e.preventDefault()
-        const url = "http://localhost:3001/changetodo"
+        const url = "http://localhost:3001/todisdone"
         const payload = { checked, todoId }
         const token = localStorage.getItem("backend3")
         const headers = {

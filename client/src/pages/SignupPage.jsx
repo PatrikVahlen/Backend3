@@ -10,7 +10,7 @@ export default function Signup() {
 
     function handleOnSubmit(e) {
         e.preventDefault()
-        const url = "http://localhost:3001/users"
+        const url = "http://localhost:3001/signup"
         const payload = { username, password }
         fetch(url, {
             method: "POST",
