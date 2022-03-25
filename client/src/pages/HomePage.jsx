@@ -5,6 +5,7 @@ export default function Home() {
 
     const [todo, setTodo] = useState("");
     const [postList, setPostList] = useState("");
+    let counter = 1;
     //const [checked, setChecked] = useState(true);
     const navigate = useNavigate();
 
@@ -28,13 +29,14 @@ export default function Home() {
                 //console.log(data.user)
                 fetchData();
                 setTodo("");
+                console.log("Create Todo")
                 //navigate('/user/home')
             })
     };
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [counter]);
 
     function fetchData() {
         const url = 'http://localhost:3001/todoposts'
@@ -80,7 +82,6 @@ export default function Home() {
             .then(res => res.json())
             .then(data => {
                 fetchData();
-                //navigate('/user/home');
             })
     };
 
@@ -157,7 +158,7 @@ export default function Home() {
                                                 name="todo"
                                                 onChange={(e) => handleOnChange(item._id, false)}>
                                             </input>
-                                            <label for="todo">Done</label>
+                                            <label for="todo">Not Done</label>
                                         </div>
                                     </div>
                                 )
