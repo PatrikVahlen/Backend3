@@ -36,6 +36,7 @@ export default function Signup() {
                 value={username}
                 onChange={e => setUsername(e.target.value)}
                 placeholder="Username"
+                required
             />
 
             <br />
@@ -44,6 +45,7 @@ export default function Signup() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Password"
+                required
             />
             <br />
             <button class="btn btn-primary">Log in</button>

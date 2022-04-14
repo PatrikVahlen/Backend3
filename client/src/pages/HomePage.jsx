@@ -106,6 +106,7 @@ export default function Home() {
                         value={todo}
                         onChange={e => setTodo(e.target.value)}
                         placeholder="Todo"
+                        required
                     />
                     <br />
                     <button class="btn btn-primary">Create todo</button>
