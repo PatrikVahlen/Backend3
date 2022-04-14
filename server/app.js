@@ -13,8 +13,10 @@ const MONGODB_URL = "mongodb://127.0.0.1/backend2EgenUppgift";
 const JWT_SECRET = "B5rSrYfYNsu6ne7FXw__BEeLoHazAfkhjWvlsZ9VHGw";
 
 const middlewareRouter = require("./controllers/middleware").router;
+const GETtodoRouter = require("./controllers/GETtodo").router;
 
 app.use("/", middlewareRouter);
+app.use("/", GETtodoRouter);
 // app.use(express.json());
 
 // app.use(cors());
@@ -67,23 +69,20 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.get("/todoposts", requireLogin, async (req, res) => {
-    const entries = await Todo
-        .find({ user: req.user.userId }).sort('-date')
-        .populate("user")
-        .exec();
-    res.json({ entries });
-});
+// app.get("/todoposts", requireLogin, async (req, res) => {
+//     const entries = await Todo
+//         .find({ user: req.user.userId }).sort('-date')
+//         .populate("user")
+//         .exec();
+//     res.json({ entries });
+// });
 
 //Why req.user.userId and not req.user._id?
 
 app.post("/todo", requireLogin, async (req, res) => {
     const { todo, isDone } = req.body;
     const user = req.user;
-    //console.log(user);
     console.log(user);
-    //console.log(state);
-    // console.log(user.userId);
     const entry = new Todo({ todo, isDone, user: user.userId });
     try {
         await entry.save();
