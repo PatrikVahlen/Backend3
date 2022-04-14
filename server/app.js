@@ -15,10 +15,12 @@ const JWT_SECRET = "B5rSrYfYNsu6ne7FXw__BEeLoHazAfkhjWvlsZ9VHGw";
 const middlewareRouter = require("./controllers/middleware").router;
 const GETtodoRouter = require("./controllers/GETtodo").router;
 const POSTtodoRouter = require("./controllers/POSTtodo").router;
+const POSTtodoisdoneRouter = require("./controllers/POSTtodoisdone").router;
 
 app.use("/", middlewareRouter);
 app.use("/", GETtodoRouter);
 app.use("/", POSTtodoRouter);
+app.use("/", POSTtodoisdoneRouter);
 // app.use(express.json());
 
 // app.use(cors());
@@ -94,13 +96,13 @@ app.post("/login", async (req, res) => {
 //     }
 // });
 
-app.post("/todoisdone", requireLogin, async (req, res) => {
-    const { checked, todoId } = req.body;
-    console.log(checked);
-    const user = req.user;
-    await Todo.updateOne({ user: user.userId, _id: todoId }, { isDone: checked })
-    res.json({ user });
-});
+// app.post("/todoisdone", requireLogin, async (req, res) => {
+//     const { checked, todoId } = req.body;
+//     console.log(checked);
+//     const user = req.user;
+//     await Todo.updateOne({ user: user.userId, _id: todoId }, { isDone: checked })
+//     res.json({ user });
+// });
 
 mongoose.connect(MONGODB_URL);
 
