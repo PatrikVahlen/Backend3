@@ -16,8 +16,10 @@ const middlewareRouter = require("./controllers/middleware").router;
 const GETtodoRouter = require("./controllers/GETtodo").router;
 const POSTtodoRouter = require("./controllers/POSTtodo").router;
 const POSTtodoisdoneRouter = require("./controllers/POSTtodoisdone").router;
+const POSTsignupRouter = require("./controllers/POSTsignup").router;
 
 app.use("/", middlewareRouter);
+app.use("/", POSTsignupRouter);
 app.use("/", GETtodoRouter);
 app.use("/", POSTtodoRouter);
 app.use("/", POSTtodoisdoneRouter);
@@ -35,27 +37,26 @@ app.use("/", POSTtodoisdoneRouter);
 //     next();
 // });
 
-const requireLogin = (req, res, next) => {
-    if (req.user) {
-        next()
-    } else {
-        res.sendStatus(401);
-    }
-}
+// const requireLogin = (req, res, next) => {
+//     if (req.user) {
+//         next()
+//     } else {
+//         res.sendStatus(401);
+//     }
+// }
 
 // app.get("/secret", requireLogin, (req, res) => {
 //     res.json({ greeting: `Hello ${req.user.username}` });
 // });
 
-app.post("/signup", async (req, res) => {
-    console.log(req.body);
-    const { username, password } = req.body;
-    console.log(username);
-    const user = new User({ username, password });
-    await user.save();
-    console.log(user._id);
-    res.json({ username });
-});
+// app.post("/signup", async (req, res) => {
+//     console.log(req.body);
+//     const { username, password } = req.body;
+//     console.log(username);
+//     const user = new User({ username, password });
+//     await user.save();
+//     res.json({ username });
+// });
 
 app.post("/login", async (req, res) => {
     const { username, password } = req.body;
