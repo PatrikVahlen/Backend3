@@ -5,15 +5,26 @@ export default function Home() {
 
     const [todo, setTodo] = useState("");
     const [postList, setPostList] = useState("");
+    let [tags, setTags] = useState("");
+    let [tagList, setTagList] = useState("")
     let counter = 1;
+    let tagArray = [];
     //const [checked, setChecked] = useState(true);
     const navigate = useNavigate();
 
+    tagArray = tags.toLowerCase().split(" ")
+    let checkDuplicate = checkIfDuplicateExists(tagArray);
+
+    function checkIfDuplicateExists(arr) {
+        return new Set(arr).size !== arr.length
+    }
+
     function handleOnSubmit(e) {
-        const isDone = false;
+        // const isDone = false;
         e.preventDefault()
+        tags = tagArray;
         const url = "http://localhost:3001/todo"
-        const payload = { todo, isDone }
+        const payload = { todo, tags }
         const token = localStorage.getItem("backend3")
         const headers = {
             'Content-Type': 'application/json',
@@ -29,7 +40,8 @@ export default function Home() {
                 //console.log(data.user)
                 fetchData();
                 setTodo("");
-                console.log("Create Todo")
+                setTags("");
+                //console.log("Create Todo")
                 //navigate('/user/home')
             })
     };
@@ -51,7 +63,7 @@ export default function Home() {
             .then((res) => res.json())
             .then((data) => {
                 setPostList(data.entries)
-                console.log(data.entries)
+                //console.log(data.entries)
             });
     };
 
@@ -60,12 +72,38 @@ export default function Home() {
         navigate("/user/login");
     };
 
+    function handleOnTagClick(tagData) {
+        console.log(tagData.tag)
+        let tag = tagData.tag;
+        {
+            const url = "http://localhost:3001/tags"
+            const payload = { tag }
+            const token = localStorage.getItem("backend3")
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+            fetch(url, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(payload)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.todoTags)
+                    setTagList(data.todoTags)
+                    fetchData();
+                })
+        };
+
+    };
+
     //Move todo i.e. is it completed?
 
     function handleOnChange(todoId, checked) {
         //setChecked(checked);
-        console.log(checked);
-        //console.log(todoId);
+        // console.log(checked);
+        // console.log(todoId);
         //e.preventDefault()
         const url = "http://localhost:3001/todoisdone"
         const payload = { checked, todoId }
@@ -92,6 +130,7 @@ export default function Home() {
                     <div class="col">
                     </div>
                     <div class="col">
+                        {checkDuplicate && <div>Två tags får inte heta samma sak</div>}
                     </div>
                     <div class="col">
                         <button class="btn btn-primary" onClick={handleOnClick}>Log out</button>
@@ -107,6 +146,13 @@ export default function Home() {
                         onChange={e => setTodo(e.target.value)}
                         placeholder="Todo"
                         required
+                    />
+                    <br></br>
+                    <input
+                        type="text"
+                        value={tags}
+                        onChange={e => setTags(e.target.value)}
+                        placeholder="Tag"
                     />
                     <br />
                     <button class="btn btn-primary">Create todo</button>
@@ -127,6 +173,13 @@ export default function Home() {
                                 return (
                                     <div className="Card" key={item._id}>
                                         <p>{item.todo}</p>
+                                        <div>Tags: {item.tagList.map((tag) => {
+                                            return (<a
+                                                // href=""
+                                                value={tag}
+                                                onClick={e => handleOnTagClick({ tag })
+                                                }>{tag} </a>)
+                                        })}</div>
                                         <p>{truncatedDate[1]}</p>
                                         <div>
                                             <input
@@ -151,6 +204,13 @@ export default function Home() {
                                 return (
                                     <div className="Card" key={item._id}>
                                         <p>{item.todo}</p>
+                                        <div>Tags: {item.tagList.map((tag) => {
+                                            return (<a
+                                                // href=""
+                                                value={tag}
+                                                onClick={e => handleOnTagClick({ tag })
+                                                }>{tag} </a>)
+                                        })}</div>
                                         <p>{truncatedDate[1]}</p>
                                         <div>
                                             <input
@@ -164,6 +224,23 @@ export default function Home() {
                                     </div>
                                 )
                             }
+                        })}
+                    </div>
+                    <div class="col">
+                        <p>Tags</p>
+                        {tagList && tagList.map((item, index) => {
+
+                            let truncatedDate = item.date.split("T")
+
+                            return (
+                                <div className="Card" key={item._id}>
+                                    <p>{item.todo}</p>
+                                    <div>Tags: {item.tagList.map((tag) => {
+                                        return (<a>{tag} </a>)
+                                    })}</div>
+                                    <p>{truncatedDate[1]}</p>
+                                </div>
+                            )
                         })}
                     </div>
                 </div>

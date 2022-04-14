@@ -12,9 +12,10 @@ const requireLogin = (req, res, next) => {
 }
 
 router.post("/todo", requireLogin, async (req, res) => {
-    const { todo, isDone } = req.body;
+    //let todoCount = await Todo.find().count();
+    const { todo, tags } = req.body;
     const user = req.user;
-    const entry = new Todo({ todo, isDone, user: user.userId });
+    const entry = new Todo({ todo, user: user.userId, tagList: tags });
 
     try {
         await entry.save();
@@ -22,6 +23,7 @@ router.post("/todo", requireLogin, async (req, res) => {
     } catch (err) {
         console.log(err)
     }
+
 });
 
 exports.router = router;
