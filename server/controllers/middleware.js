@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const router = express.Router();
 
-const JWT_SECRET = "B5rSrYfYNsu6ne7FXw__BEeLoHazAfkhjWvlsZ9VHGw";
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.use(express.json());
 

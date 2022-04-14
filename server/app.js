@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express()
 const mongoose = require("mongoose")
+const dotenv = require("dotenv");
+dotenv.config();
 
-const PORT = 3001;
-const MONGODB_URL = "mongodb://127.0.0.1/backend2EgenUppgift";
+const PORT = process.env.PORT;
+const MONGODB_URL = process.env.MONGODB_URL;
 
 const middlewareRouter = require("./controllers/middleware").router;
 const GETtodoRouter = require("./controllers/GETtodo").router;
