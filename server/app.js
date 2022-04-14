@@ -1,109 +1,23 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose")
-
-const { User } = require("./models/user");
-const { Todo } = require("./models/todos");
-
-
 const app = express()
+const mongoose = require("mongoose")
 
 const PORT = 3001;
 const MONGODB_URL = "mongodb://127.0.0.1/backend2EgenUppgift";
-const JWT_SECRET = "B5rSrYfYNsu6ne7FXw__BEeLoHazAfkhjWvlsZ9VHGw";
 
 const middlewareRouter = require("./controllers/middleware").router;
 const GETtodoRouter = require("./controllers/GETtodo").router;
 const POSTtodoRouter = require("./controllers/POSTtodo").router;
 const POSTtodoisdoneRouter = require("./controllers/POSTtodoisdone").router;
 const POSTsignupRouter = require("./controllers/POSTsignup").router;
+const POSTloginRouter = require("./controllers/POSTlogin").router;
 
 app.use("/", middlewareRouter);
 app.use("/", POSTsignupRouter);
+app.use("/", POSTloginRouter);
 app.use("/", GETtodoRouter);
 app.use("/", POSTtodoRouter);
 app.use("/", POSTtodoisdoneRouter);
-// app.use(express.json());
-
-// app.use(cors());
-
-// app.use((req, _res, next) => {
-//     const authHeader = req.header("Authorization");
-//     if (authHeader) {
-//         const token = authHeader.split(" ")[1];
-//         //console.log("Token:", token);
-//         req.user = jwt.verify(token, JWT_SECRET);
-//     }
-//     next();
-// });
-
-// const requireLogin = (req, res, next) => {
-//     if (req.user) {
-//         next()
-//     } else {
-//         res.sendStatus(401);
-//     }
-// }
-
-// app.get("/secret", requireLogin, (req, res) => {
-//     res.json({ greeting: `Hello ${req.user.username}` });
-// });
-
-// app.post("/signup", async (req, res) => {
-//     console.log(req.body);
-//     const { username, password } = req.body;
-//     console.log(username);
-//     const user = new User({ username, password });
-//     await user.save();
-//     res.json({ username });
-// });
-
-app.post("/login", async (req, res) => {
-    const { username, password } = req.body;
-    const user = await User.login(username, password);
-    if (user) {
-        const userId = user._id.toString();
-        const token = jwt.sign(
-            { userId, username: user.username },
-            JWT_SECRET,
-            { expiresIn: "1 h", subject: userId }
-        );
-        res.json({ token });
-    } else {
-        res.sendStatus(401);
-    }
-});
-
-// app.get("/todoposts", requireLogin, async (req, res) => {
-//     const entries = await Todo
-//         .find({ user: req.user.userId }).sort('-date')
-//         .populate("user")
-//         .exec();
-//     res.json({ entries });
-// });
-
-//Why req.user.userId and not req.user._id?
-
-// app.post("/todo", requireLogin, async (req, res) => {
-//     const { todo, isDone } = req.body;
-//     const user = req.user;
-//     console.log(user);
-//     const entry = new Todo({ todo, isDone, user: user.userId });
-//     try {
-//         await entry.save();
-//         res.json({ user })
-//     } catch (err) {
-//         console.log(err)
-//     }
-// });
-
-// app.post("/todoisdone", requireLogin, async (req, res) => {
-//     const { checked, todoId } = req.body;
-//     console.log(checked);
-//     const user = req.user;
-//     await Todo.updateOne({ user: user.userId, _id: todoId }, { isDone: checked })
-//     res.json({ user });
-// });
 
 mongoose.connect(MONGODB_URL);
 

@@ -13,7 +13,6 @@ const requireLogin = (req, res, next) => {
 
 router.post("/todoisdone", requireLogin, async (req, res) => {
     const { checked, todoId } = req.body;
-    console.log(checked);
     const user = req.user;
     await Todo.updateOne({ user: user.userId, _id: todoId }, { isDone: checked })
     res.json({ user });
