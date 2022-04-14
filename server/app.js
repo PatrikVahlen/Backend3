@@ -14,9 +14,11 @@ const JWT_SECRET = "B5rSrYfYNsu6ne7FXw__BEeLoHazAfkhjWvlsZ9VHGw";
 
 const middlewareRouter = require("./controllers/middleware").router;
 const GETtodoRouter = require("./controllers/GETtodo").router;
+const POSTtodoRouter = require("./controllers/POSTtodo").router;
 
 app.use("/", middlewareRouter);
 app.use("/", GETtodoRouter);
+app.use("/", POSTtodoRouter);
 // app.use(express.json());
 
 // app.use(cors());
@@ -79,18 +81,18 @@ app.post("/login", async (req, res) => {
 
 //Why req.user.userId and not req.user._id?
 
-app.post("/todo", requireLogin, async (req, res) => {
-    const { todo, isDone } = req.body;
-    const user = req.user;
-    console.log(user);
-    const entry = new Todo({ todo, isDone, user: user.userId });
-    try {
-        await entry.save();
-        res.json({ user })
-    } catch (err) {
-        console.log(err)
-    }
-});
+// app.post("/todo", requireLogin, async (req, res) => {
+//     const { todo, isDone } = req.body;
+//     const user = req.user;
+//     console.log(user);
+//     const entry = new Todo({ todo, isDone, user: user.userId });
+//     try {
+//         await entry.save();
+//         res.json({ user })
+//     } catch (err) {
+//         console.log(err)
+//     }
+// });
 
 app.post("/todoisdone", requireLogin, async (req, res) => {
     const { checked, todoId } = req.body;
