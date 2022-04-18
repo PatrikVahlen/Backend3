@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 
 
@@ -7,14 +7,14 @@ export default function Details() {
 
     const location = useLocation();
     const { id } = location.state;
-    console.log(id)
+
 
     const [todo, setTodo] = useState("");
     const [body, setBody] = useState("");
-
+    let [postList, setPostList] = useState("");
 
     function handleOnSubmit(e) {
-        // const isDone = false;
+
         e.preventDefault()
         const url = "http://localhost:3001/updatetodo"
         const payload = { todo, body, id }
@@ -30,9 +30,11 @@ export default function Details() {
         })
             .then(res => res.json())
             .then(data => {
-                //console.log(data.user)
-                //console.log("Create Todo")
-                //navigate('/user/home')
+                setPostList(data.entries)
+                setBody("");
+                setTodo("");
+                console.log("Här")
+                console.log(data.entries)
             })
     };
 
@@ -57,5 +59,23 @@ export default function Details() {
             <button
                 class="btn btn-primary">Update todo</button>
         </form>
+        <div>
+            <p>Update todo</p>
+            {postList && postList.map((item, index) => {
+
+                let truncatedDate = item.date.split("T")
+                let truncatedTime = truncatedDate[1].split(".")
+                return (
+                    <div className="Card" key={item._id}>
+                        <p>{item.todo}</p>
+                        <p>{item.body}</p>
+                        <div>Tags: {item.tagList.map((tag) => {
+                            return (<button className="tagButton">{tag}</button>)
+                        })}</div>
+                        <p>{truncatedDate[0]} {truncatedTime[0]}</p>
+                    </div>
+                )
+            })}
+        </div>
     </div>
 }
