@@ -52,7 +52,7 @@ export default function Home() {
     }, [counter]);
 
     function fetchData(tag) {
-        console.log(tag)
+        //console.log(tag)
         const url = 'http://localhost:3001/todoposts'
         const token = localStorage.getItem('backend3')
         const headers = {
@@ -177,7 +177,8 @@ export default function Home() {
                                 let truncatedTime = truncatedDate[1].split(".")
                                 return (
                                     <div className="Card" key={item._id}>
-                                        <Link to="/user/details">Details</Link>
+
+                                        <Link to="/user/details" state={{ id: item._id }}>Details</Link>
                                         <p>{item.todo}</p>
                                         <div>Tags: {item.tagList.map((tag) => {
                                             return (<button
