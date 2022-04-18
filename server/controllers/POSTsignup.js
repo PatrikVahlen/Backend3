@@ -6,8 +6,13 @@ const { User } = require("../models/user");
 router.post("/signup", async (req, res) => {
     const { username, password } = req.body;
     const user = new User({ username, password });
-    await user.save();
-    res.json({ username });
+    try {
+        await user.save();
+        res.json({ username });
+    } catch (err) {
+        console.log(err)
+    }
+
 });
 
 exports.router = router

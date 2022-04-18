@@ -12,7 +12,7 @@ const requireLogin = (req, res, next) => {
 }
 
 router.post("/todo", requireLogin, async (req, res) => {
-    //let todoCount = await Todo.find().count();
+
     const { todo, tags } = req.body;
     const user = req.user;
     const entry = new Todo({ todo, user: user.userId, tagList: tags });

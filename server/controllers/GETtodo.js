@@ -12,8 +12,17 @@ const requireLogin = (req, res, next) => {
 }
 
 router.get("/todoposts", requireLogin, async (req, res) => {
+    // console.log(req.query);
+    // console.log(req.query.tag);
+    let queryParameters = { user: req.user.userId };
+    let tag = req.query.tag;
+    if (req.query.tag !== "undefined") {
+        queryParameters = { user: req.user.userId, tagList: tag }
+    }
+    // console.log(queryParameters)
     const entries = await Todo
-        .find({ user: req.user.userId }).sort('-date')
+        .find(queryParameters)
+        .sort('-date')
         .populate("user")
         .exec();
     res.json({ entries });

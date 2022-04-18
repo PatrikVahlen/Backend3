@@ -14,7 +14,7 @@ const requireLogin = (req, res, next) => {
 router.post("/tags", requireLogin, async (req, res) => {
     const { tag } = req.body;
     const todoTags = await Todo
-        .find({ tagList: tag })
+        .find({ user: req.user.userId, tagList: tag })
         .populate("user")
         .exec();
     // console.log(todoTags);

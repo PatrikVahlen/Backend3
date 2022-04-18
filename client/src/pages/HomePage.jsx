@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+
 
 export default function Home() {
 
     const [todo, setTodo] = useState("");
-    const [postList, setPostList] = useState("");
+    let [postList, setPostList] = useState("");
     let [tags, setTags] = useState("");
     let [tagList, setTagList] = useState("")
     let counter = 1;
@@ -50,14 +51,15 @@ export default function Home() {
         fetchData();
     }, [counter]);
 
-    function fetchData() {
+    function fetchData(tag) {
+        console.log(tag)
         const url = 'http://localhost:3001/todoposts'
         const token = localStorage.getItem('backend3')
         const headers = {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         };
-        fetch(url, {
+        fetch(url + `?tag=${tag}`, {
             headers: headers,
         })
             .then((res) => res.json())
@@ -169,18 +171,18 @@ export default function Home() {
                         {postList && postList.map((item, index) => {
                             if (item.isDone === false) {
                                 let truncatedDate = item.date.split("T")
-
+                                let truncatedTime = truncatedDate[1].split(".")
                                 return (
                                     <div className="Card" key={item._id}>
+                                        <Link to="/user/details">Details</Link>
                                         <p>{item.todo}</p>
                                         <div>Tags: {item.tagList.map((tag) => {
-                                            return (<a
-                                                // href=""
-                                                value={tag}
-                                                onClick={e => handleOnTagClick({ tag })
-                                                }>{tag} </a>)
+                                            return (<button
+                                                className="tagButton"
+                                                onClick={e => fetchData(tag)
+                                                }>{tag},</button>)
                                         })}</div>
-                                        <p>{truncatedDate[1]}</p>
+                                        <p>{truncatedDate[0]} {truncatedTime[0]}</p>
                                         <div>
                                             <input
                                                 class="form-check-input"
@@ -200,18 +202,19 @@ export default function Home() {
                         {postList && postList.map((item, index) => {
                             if (item.isDone === true) {
                                 let truncatedDate = item.date.split("T")
+                                let truncatedTime = truncatedDate[1].split(".")
 
                                 return (
                                     <div className="Card" key={item._id}>
+                                        <Link to="/user/details">Details</Link>
                                         <p>{item.todo}</p>
                                         <div>Tags: {item.tagList.map((tag) => {
-                                            return (<a
-                                                // href=""
-                                                value={tag}
+                                            return (<button
+                                                className="tagButton"
                                                 onClick={e => handleOnTagClick({ tag })
-                                                }>{tag} </a>)
+                                                }>{tag},</button>)
                                         })}</div>
-                                        <p>{truncatedDate[1]}</p>
+                                        <p>{truncatedDate[0]} {truncatedTime[0]}</p>
                                         <div>
                                             <input
                                                 class="form-check-input"
@@ -226,23 +229,23 @@ export default function Home() {
                             }
                         })}
                     </div>
-                    <div class="col">
+                    {/* <div class="col">
                         <p>Tags</p>
                         {tagList && tagList.map((item, index) => {
 
                             let truncatedDate = item.date.split("T")
-
+                            let truncatedTime = truncatedDate[1].split(".")
                             return (
                                 <div className="Card" key={item._id}>
                                     <p>{item.todo}</p>
                                     <div>Tags: {item.tagList.map((tag) => {
-                                        return (<a>{tag} </a>)
+                                        return (<>{tag} </>)
                                     })}</div>
-                                    <p>{truncatedDate[1]}</p>
+                                    <p>{truncatedDate[0]} {truncatedTime[0]}</p>
                                 </div>
                             )
                         })}
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>
