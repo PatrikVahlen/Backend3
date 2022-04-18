@@ -157,7 +157,10 @@ export default function Home() {
                         placeholder="Tag"
                     />
                     <br />
-                    <button class="btn btn-primary">Create todo</button>
+                    <button
+                        class="btn btn-primary"
+                        disabled={checkDuplicate ? true : ""}
+                    >Create todo</button>
                 </form>
             </div>
             <div class="container">
