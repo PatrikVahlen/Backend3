@@ -53,8 +53,10 @@
 
 .tagButton {
   background: none!important;
-  border: none;
-  padding: 0!important;
+  border: 2px solid white;
+  border-radius: 15px;
+  padding: 5px;
+  margin: 5px;
   color: white;
   cursor: pointer;
 }

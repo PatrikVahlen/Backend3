@@ -7,7 +7,7 @@ export default function Home() {
     const [todo, setTodo] = useState("");
     let [postList, setPostList] = useState("");
     let [tags, setTags] = useState("");
-    let [tagList, setTagList] = useState("")
+    // let [tagList, setTagList] = useState("")
     let counter = 1;
     let tagArray = [];
     //const [checked, setChecked] = useState(true);
@@ -74,31 +74,31 @@ export default function Home() {
         navigate("/user/login");
     };
 
-    function handleOnTagClick(tagData) {
-        console.log(tagData.tag)
-        let tag = tagData.tag;
-        {
-            const url = "http://localhost:3001/tags"
-            const payload = { tag }
-            const token = localStorage.getItem("backend3")
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-            fetch(url, {
-                method: "POST",
-                headers: headers,
-                body: JSON.stringify(payload)
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data.todoTags)
-                    setTagList(data.todoTags)
-                    fetchData();
-                })
-        };
+    // function handleOnTagClick(tagData) {
+    //     console.log(tagData.tag)
+    //     let tag = tagData.tag;
+    //     {
+    //         const url = "http://localhost:3001/tags"
+    //         const payload = { tag }
+    //         const token = localStorage.getItem("backend3")
+    //         const headers = {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${token}`
+    //         }
+    //         fetch(url, {
+    //             method: "POST",
+    //             headers: headers,
+    //             body: JSON.stringify(payload)
+    //         })
+    //             .then(res => res.json())
+    //             .then(data => {
+    //                 console.log(data.todoTags)
+    //                 setTagList(data.todoTags)
+    //                 fetchData();
+    //             })
+    //     };
 
-    };
+    // };
 
     //Move todo i.e. is it completed?
 
@@ -180,7 +180,7 @@ export default function Home() {
                                             return (<button
                                                 className="tagButton"
                                                 onClick={e => fetchData(tag)
-                                                }>{tag},</button>)
+                                                }>{tag}</button>)
                                         })}</div>
                                         <p>{truncatedDate[0]} {truncatedTime[0]}</p>
                                         <div>
@@ -211,8 +211,8 @@ export default function Home() {
                                         <div>Tags: {item.tagList.map((tag) => {
                                             return (<button
                                                 className="tagButton"
-                                                onClick={e => handleOnTagClick({ tag })
-                                                }>{tag},</button>)
+                                                onClick={e => fetchData(tag)
+                                                }>{tag}</button>)
                                         })}</div>
                                         <p>{truncatedDate[0]} {truncatedTime[0]}</p>
                                         <div>
