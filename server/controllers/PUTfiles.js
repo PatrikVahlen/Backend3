@@ -17,11 +17,11 @@ let upload = multer({ dest: 'uploads/' }).single('file')
 router.put("/updatefiles", upload, (req, res) => {
     console.log("HÄR")
     upload(req, res, function (err) {
-        if (err instanceof multer.MulterError) {
-            return res.status(500).json(err)
-        } else if (err) {
-            return res.status(500).json(err)
-        }
+        // if (err instanceof multer.MulterError) {
+        //     return res.status(500).json(err)
+        // } else if (err) {
+        //     return res.status(500).json(err)
+        // }
         console.log("Funkar")
         return res.status(200).send("req.file")
     })

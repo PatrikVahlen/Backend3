@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -87,10 +87,10 @@ export default function Details() {
         //console.log(selectedFile);
         const url = "http://localhost:3001/updatefiles"
         const token = localStorage.getItem("backend3")
-        // let formData = new FormData();
+        let formData = new FormData();
         // let fileField = document.querySelector('input[type="file"]');
         // formData.append("File", fileField.files[0])
-        //formData.append(selectedFile.name, selectedFile);
+        formData.append(selectedFile.name, selectedFile);
         //console.log(selectedFile)
         // console.log(fileField);
         // console.log(formData);
@@ -104,7 +104,7 @@ export default function Details() {
             method: "PUT",
             //headers: headers,
             //body: formData
-            body: selectedFile
+            body: formData
             //body: formData
         })
             .then(res => res.json())
@@ -135,6 +135,8 @@ export default function Details() {
     };
 
     return <div>
+        <div><Link to="/user/home">Back to main</Link></div>
+        <p>Update todo</p>
         <form onSubmit={handleOnSubmit}>
             <label>Update Todo:</label>
             <input
@@ -164,7 +166,7 @@ export default function Details() {
                 onChange={changeHandler}
             />
             <br />
-            {isFilePicked ? (
+            {/* {isFilePicked ? (
                 <div>
                     <p>Filename: {selectedFile.name}</p>
                     <p>Filetype: {selectedFile.type}</p>
@@ -176,11 +178,11 @@ export default function Details() {
                 </div>
             ) : (
                 <p>Select a file to show details</p>
-            )}
+            )} */}
             <button class="btn btn-primary">Update files</button>
         </form>
         <div>
-            <p>Update todo</p>
+
             {postList && postList.map((item, index) => {
 
                 let truncatedDate = item.date.split("T")
