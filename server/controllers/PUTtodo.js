@@ -5,7 +5,10 @@ const { Todo } = require("../models/todos");
 
 router.put("/updatetodo", async (req, res) => {
     const { todo, body, id } = req.body;
-    console.log(id)
+    //const { selectedFile } = req.body;
+    console.log(todo);
+    //console.log(selectedFile);
+
     if (todo) {
 
         await Todo.updateOne({ _id: id }, { todo: todo })

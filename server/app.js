@@ -15,6 +15,7 @@ const POSTsignupRouter = require("./controllers/POSTsignup").router;
 const POSTloginRouter = require("./controllers/POSTlogin").router;
 // const POSTtagsRouter = require("./controllers/POSTtags").router;
 const PUTtodoRouter = require("./controllers/PUTtodo").router;
+const PUTfilesRouter = require("./controllers/PUTfiles").router;
 
 app.use("/", middlewareRouter);
 app.use("/", POSTsignupRouter);
@@ -25,6 +26,7 @@ app.use("/", POSTtodoisdoneRouter);
 // app.use("/", POSTtagsRouter);
 // app.use("/", POSTtagsRouter);
 app.use("/", PUTtodoRouter);
+app.use("/", PUTfilesRouter);
 
 mongoose.connect(MONGODB_URL);
 

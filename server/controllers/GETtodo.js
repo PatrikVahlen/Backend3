@@ -13,7 +13,7 @@ const requireLogin = (req, res, next) => {
 
 router.get("/todoposts", requireLogin, async (req, res) => {
     // console.log(req.query);
-    console.log(req.query.id);
+    ///console.log(req.query.id);
     let queryParameters = { user: req.user.userId };
     let tag = req.query.tag;
     let id = req.query.id;

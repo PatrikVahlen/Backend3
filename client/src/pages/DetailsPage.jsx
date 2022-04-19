@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-
+import axios from 'axios';
 
 
 export default function Details() {
@@ -9,10 +9,16 @@ export default function Details() {
     const { id } = location.state;
 
     let counter = 1;
+    //let objectURL = "";
 
     const [todo, setTodo] = useState("");
     const [body, setBody] = useState("");
     let [postList, setPostList] = useState("");
+
+    const [selectedFile, setSelectedFile] = useState();
+    const [isFilePicked, setIsFilePicked] = useState(false);
+    // const [preview, setPreview] = useState();
+
 
     // console.log({ id });
     // console.log("Här");
@@ -20,20 +26,40 @@ export default function Details() {
         fetchData(id);
     }, [counter]);
 
+    const changeHandler = (event) => {
+        //console.log(event.target.files[0])
+        setSelectedFile(event.target.files[0]);
+        setIsFilePicked(true);
+        //const objectURL = URL.createObjectURL(selectedFile);
+        //setPreview(objectURL);
+        //console.log(objectURL);
+    };
+
     function handleOnSubmit(e) {
 
         e.preventDefault()
+        console.log(selectedFile);
         const url = "http://localhost:3001/updatetodo"
         const payload = { todo, body, id }
         const token = localStorage.getItem("backend3")
+        // let formData = new FormData();
+        // let fileField = document.querySelector('input[type="file"]');
+        // formData.append(selectedFile.name, selectedFile);
+        //console.log(selectedFile)
+        // console.log(fileField);
+        // console.log(formData);
+        //formData.append(todo, JSON.stringify(payload));
         const headers = {
             'Content-Type': 'application/json',
+            //'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`
         }
         fetch(url, {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(payload)
+            //body: selectedFile
+            //body: formData
         })
             .then(res => res.json())
             .then(data => {
@@ -41,8 +67,52 @@ export default function Details() {
                 fetchData(id);
                 setBody("");
                 setTodo("");
-                console.log("Här")
-                console.log(data.entries)
+            })
+    };
+
+    // function onClickHandler() {
+    //     const data = new FormData()
+    //     data.append('file', this.state.selectedFile)
+    //     axios.post("http://localhost:3001/updatefiles", data, {
+    //         // receive two    parameter endpoint url ,form data
+    //     })
+    //         .then(res => { // then print response status
+    //             console.log(res.statusText)
+    //         })
+    // }
+
+    function handleOnSubmitFiles(e) {
+
+        e.preventDefault()
+        //console.log(selectedFile);
+        const url = "http://localhost:3001/updatefiles"
+        const token = localStorage.getItem("backend3")
+        // let formData = new FormData();
+        // let fileField = document.querySelector('input[type="file"]');
+        // formData.append("File", fileField.files[0])
+        //formData.append(selectedFile.name, selectedFile);
+        //console.log(selectedFile)
+        // console.log(fileField);
+        // console.log(formData);
+        //formData.append(todo, JSON.stringify(payload));
+        const headers = {
+            // 'Content-Type': 'application/json',
+            //'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`
+        }
+        fetch(url, {
+            method: "PUT",
+            //headers: headers,
+            //body: formData
+            body: selectedFile
+            //body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                //setPostList(data.entries)
+                fetchData(id);
+                // setBody("");
+                // setTodo("");
             })
     };
 
@@ -84,6 +154,30 @@ export default function Details() {
             <br />
             <button
                 class="btn btn-primary">Update todo</button>
+        </form>
+        <br />
+        <form onSubmit={handleOnSubmitFiles}>
+            <label>Update File:</label>
+            <input
+                type="file"
+                name="file"
+                onChange={changeHandler}
+            />
+            <br />
+            {isFilePicked ? (
+                <div>
+                    <p>Filename: {selectedFile.name}</p>
+                    <p>Filetype: {selectedFile.type}</p>
+                    <p>Size in bytes: {selectedFile.size}</p>
+                    <p>
+                        lastModifiedDate:{' '}
+                        {selectedFile.lastModifiedDate.toLocaleDateString()}
+                    </p>
+                </div>
+            ) : (
+                <p>Select a file to show details</p>
+            )}
+            <button class="btn btn-primary">Update files</button>
         </form>
         <div>
             <p>Update todo</p>
