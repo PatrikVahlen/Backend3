@@ -13,7 +13,7 @@ const POSTtodoRouter = require("./controllers/POSTtodo").router;
 const POSTtodoisdoneRouter = require("./controllers/POSTtodoisdone").router;
 const POSTsignupRouter = require("./controllers/POSTsignup").router;
 const POSTloginRouter = require("./controllers/POSTlogin").router;
-const POSTtagsRouter = require("./controllers/POSTtags").router;
+// const POSTtagsRouter = require("./controllers/POSTtags").router;
 const PUTtodoRouter = require("./controllers/PUTtodo").router;
 
 app.use("/", middlewareRouter);
@@ -22,8 +22,8 @@ app.use("/", POSTloginRouter);
 app.use("/", GETtodoRouter);
 app.use("/", POSTtodoRouter);
 app.use("/", POSTtodoisdoneRouter);
-app.use("/", POSTtagsRouter);
-app.use("/", POSTtagsRouter);
+// app.use("/", POSTtagsRouter);
+// app.use("/", POSTtagsRouter);
 app.use("/", PUTtodoRouter);
 
 mongoose.connect(MONGODB_URL);

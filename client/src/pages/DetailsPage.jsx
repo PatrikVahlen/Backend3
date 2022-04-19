@@ -8,10 +8,17 @@ export default function Details() {
     const location = useLocation();
     const { id } = location.state;
 
+    let counter = 1;
 
     const [todo, setTodo] = useState("");
     const [body, setBody] = useState("");
     let [postList, setPostList] = useState("");
+
+    // console.log({ id });
+    // console.log("Här");
+    useEffect(() => {
+        fetchData(id);
+    }, [counter]);
 
     function handleOnSubmit(e) {
 
@@ -30,12 +37,31 @@ export default function Details() {
         })
             .then(res => res.json())
             .then(data => {
-                setPostList(data.entries)
+                //setPostList(data.entries)
+                fetchData(id);
                 setBody("");
                 setTodo("");
                 console.log("Här")
                 console.log(data.entries)
             })
+    };
+
+    function fetchData(id) {
+        //console.log(tag)
+        const url = 'http://localhost:3001/todoposts'
+        const token = localStorage.getItem('backend3')
+        const headers = {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        };
+        fetch(url + `?id=${id}`, {
+            headers: headers,
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setPostList(data.entries)
+                //console.log(data.entries)
+            }, []);
     };
 
     return <div>

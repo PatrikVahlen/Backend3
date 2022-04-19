@@ -66,7 +66,7 @@ export default function Home() {
             .then((data) => {
                 setPostList(data.entries)
                 //console.log(data.entries)
-            });
+            }, []);
     };
 
     function handleOnClick() {
@@ -210,7 +210,7 @@ export default function Home() {
 
                                 return (
                                     <div className="Card" key={item._id}>
-                                        <Link to="/user/details">Details</Link>
+                                        <Link to="/user/details" state={{ id: item._id }}>Details</Link>
                                         <p>{item.todo}</p>
                                         <div>Tags: {item.tagList.map((tag) => {
                                             return (<button
